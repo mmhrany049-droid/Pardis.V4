@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<title>زبان باینری پاردیس — نسخه چهارم</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&family=Poppins:wght@400;600&family=Roboto+Mono&display=swap');
+:root {
+  color: #0f172a;
+  font-family: 'Vazirmatn', 'Poppins', 'Roboto Mono', monospace, sans-serif;
+}
+body {
+  margin: 0;
+  background: #0f172a;
+  color: white;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
+@keyframes headerAppear {
+  0% { opacity: 0; transform: translateY(-30px) scale(0.95); text-shadow: none; }
+  60% { opacity: 1; transform: translateY(0px) scale(1.05); text-shadow: 0 0 20px rgba(0,234,255,0.7); }
+  100% { transform: scale(1); text-shadow: 0 0 15px rgba(0,234,255,0.7); }
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.hidden { display: none !important; }
+header {
+  font-size: 40px;
+  font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  background: linear-gradient(270deg,#00eaff,#3b82f6,#a855f7,#06f3d4);
+  background-size: 800% 800%;
+  animation: headerAppear 1.6s ease-out forwards, gradientShift 6s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 15px rgba(0,234,255,0.7);
+}
+.app-container.hidden { display: none; }
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+}
+.auth-card {
+  width: min(620px, 95%);
+  background: rgba(17,24,39,0.85);
+  border: 1px solid rgba(148,163,184,0.2);
+  border-radius: 20px;
+  padding: 32px 28px;
+  box-shadow: 0 22px 55px rgba(2,6,23,0.75);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.auth-tabs {
+  display: flex;
+  gap: 12px;
+}
+.auth-tab {
+  flex: 1;
+  padding: 12px 0;
+  border-radius: 11px;
+  border: none;
+  background: rgba(148,163,184,0.15);
+  color: #e2e8f0;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.15s ease;
+  font-family: 'Vazirmatn','Poppins',sans-serif;
+}
+.auth-tab:hover { background: rgba(148,163,184,0.28); transform: translateY(-2px); }
+.auth-tab.active {
+  background: linear-gradient(90deg,#06b6d4,#3b82f6);
+  box-shadow: 0 4px 22px rgba(59,130,246,0.36);
+}
+.auth-content {
+  display: none;
+  background: rgba(15,23,42,0.45);
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px dashed rgba(148,163,184,0.22);
+  text-align: right;
+}
+.auth-content.active { display: block; }
+.auth-content .panel-title {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+}
+.auth-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.auth-field label {
+  font-weight: 600;
+  color: #cbd5f5;
+}
+.auth-field input {
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(148,163,184,0.35);
+  background: rgba(15,23,42,0.65);
+  color: #f8fafc;
+  font-family: 'Vazirmatn','Poppins',sans-serif;
+}
+.auth-field input:focus { outline: 2px solid rgba(59,130,246,0.6); }
+.auth-submit {
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.auth-tip {
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.6;
+  text-align: justify;
+}
+.camera-instruct {
+  border-top: 1px dashed rgba(148,163,184,0.25);
+  margin-top: 8px;
+  padding-top: 8px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+.camera-instruct strong { color: #e5e7eb; }
+.top-box {
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+  width: min(720px, 92%);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 40px auto 28px auto;
+  direction: rtl;
+}
+textarea {
+  width: 100%;
+  font-size: 18px;
+  padding: 12px;
+  border-radius: 11px;
+  border: none;
+  resize: vertical;
+  background: rgba(255,255,255,0.11);
+  color: #fff;
+  font-family: 'Vazirmatn','Poppins',sans-serif;
+  text-align: center;
+  direction: rtl;
+}
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  direction: ltr;
+}
+button {
+  flex: 1;
+  min-width: 90px;
+  padding: 11px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg,#06b6d4,#3b82f6);
+  color: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-family: 'Poppins','Vazirmatn',sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+button:hover { transform: scale(1.04); box-shadow: 0 0 12px rgba(59,130,246,0.8); }
+.fixed-btn { flex: none !important; min-width: auto !important; }
+.logout-btn {
+  background: linear-gradient(90deg,#f97316,#ef4444);
+  padding: 8px 18px;
+}
+.outline-btn {
+  background: transparent;
+  border: 1px solid rgba(59,130,246,0.55);
+  color: #bae6fd;
+}
+#outputBox {
+  min-height: 70px;
+  background: rgba(15,23,42,0.6);
+  border-radius: 12px;
+  padding: 14px;
+  direction: rtl;
+  text-align: center;
+  color: #f1f5f9;
+  font-size: 17px;
+}
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding-bottom: 60px;
+}
+.app-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: min(960px, 92%);
+  margin-top: 20px;
+}
+.user-meta-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(15,23,42,0.55);
+  padding: 10px 14px;
+  border-radius: 11px;
+  box-shadow: 0 4px 18px rgba(2,6,23,0.55);
+}
+#currentUserLabel {
+  font-weight: 600;
+  font-size: 16px;
+}
+/* ------------------ استگانوگرافی ------------------ */
+.stego-box {
+  width: 92%;
+  max-width: 940px;
+  margin: 30px auto;
+  background: rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 28px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 15px 45px rgba(2,6,23,0.55);
+  text-align: right;
+}
+.stego-box h2 {
+  margin: 0 0 8px 0;
+  font-size: 26px;
+}
+.stego-description {
+  font-size: 15px;
+  color: #cbd5f5;
+  line-height: 1.9;
+  text-align: justify;
+  margin-bottom: 24px;
+}
+.stego-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+.stego-column {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: rgba(15,23,42,0.65);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid rgba(148,163,184,0.28);
+}
+textarea.stego-textarea {
+  text-align: right;
+  direction: rtl;
+  min-height: 140px;
+}
+textarea.stego-result {
+  text-align: right;
+  direction: rtl;
+  min-height: 120px;
+}
+.stego-result {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+.stego-result img {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(15,23,42,0.55);
+}
+.download-link {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 600;
+}
+/* ------------------ پنل سازنده ------------------ */
+.creator-panel {
+  width: 92%;
+  max-width: 960px;
+  margin: 30px auto 60px auto;
+  background: rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 15px 40px rgba(2,6,23,0.55);
+  text-align: right;
+  display: none;
+  flex-direction: column;
+  gap: 24px;
+}
+.creator-panel.visible { display: flex; }
+.creator-panel h3 {
+  margin: 0 0 14px 0;
+}
+.creator-panel form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.creator-panel form input,
+.creator-panel form select {
+  flex: 1;
+  min-width: 190px;
+  padding: 10px;
+  border-radius: 9px;
+  border: 1px solid rgba(148,163,184,0.3);
+  background: rgba(15,23,42,0.65);
+  color: #f8fafc;
+}
+.creator-panel form label {
+  font-weight: 600;
+  color: #f1f5f9;
+  width: 100%;
+}
+.creator-user-list {
+  display: grid;
+  gap: 18px;
+}
+.user-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 14px;
+  padding: 16px;
+  background: rgba(15,23,42,0.6);
+  border: 1px solid rgba(148,163,184,0.3);
+}
+.user-card .card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.user-card .role {
+  font-size: 13px;
+  background: rgba(59,130,246,0.25);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.user-card .pending {
+  background: rgba(234,179,8,0.28);
+  color: #facc15;
+}
+.user-card .meta {
+  font-size: 13px;
+  color: #cbd5f5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.user-card button {
+  flex: none;
+  min-width: 150px;
+}
+.assistant-box {
+  background: rgba(30,41,59,0.75);
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px dashed rgba(148,163,184,0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.assistant-box h4 {
+  margin: 0;
+  font-size: 20px;
+}
+.assistant-box ul {
+  margin: 0;
+  padding-right: 18px;
+  list-style: '➤ ';
+  color: #cbd5f5;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.assistant-box .status-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 13px;
+  color: #e0f2fe;
+}
+/* ------------------ دوربین ------------------ */
+.camera-panel {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 320px;
+  background: rgba(15,23,42,0.9);
+  border-radius: 18px;
+  box-shadow: 0 22px 45px rgba(2,6,23,0.75);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 1500;
+}
+.camera-panel.hidden { display: none; }
+.camera-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #e2e8f0;
+  font-weight: 600;
+}
+.camera-header button {
+  flex: none;
+  min-width: auto;
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+#liveVideo {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(148,163,184,0.35);
+}
+#cameraStatus {
+  font-size: 13px;
+  color: #94a3b8;
+}
+/* ------------------ تنظیمات ------------------ */
+.settings-panel {
+  position: fixed;
+  inset: auto 20px 20px auto;
+  width: 290px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: rgba(15,23,42,0.92);
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 22px 45px rgba(2,6,23,0.75);
+  border: 1px solid rgba(59,130,246,0.25);
+  display: none;
+  flex-direction: column;
+  gap: 14px;
+  text-align: right;
+}
+.settings-panel.show { display: flex; }
+.settings-panel h3 {
+  margin: 0 0 6px 0;
+  text-align: center;
+}
+.settings-panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: #e2e8f0;
+}
+.settings-panel input {
+  padding: 7px 6px;
+  border-radius: 9px;
+  border: 1px solid rgba(148,163,184,0.3);
+  background: rgba(15,23,42,0.7);
+  color: #f8fafc;
+}
+.close-btn {
+  background: rgba(185,28,28,0.35);
+  border: 1px solid rgba(248,113,113,0.35);
+  color: #fecaca;
+  padding: 8px;
+}
+.gear-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg,#1e293b,#0ea5e9);
+  color: white;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 18px 35px rgba(14,165,233,0.35);
+  transition: transform 0.2s ease;
+  z-index: 1600;
+}
+.gear-btn:hover { transform: rotate(12deg) scale(1.04); }
+/* ------------------ سه‌بعدی ------------------ */
+#bitScene {
+  margin: 0 auto;
+  border-radius: 14px;
+  background: rgba(15,23,42,0.55);
+  box-shadow: 0 10px 35px rgba(15,23,42,0.65);
+}
+#bitLight {
+  margin: 20px auto 10px auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+.bit-circle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  box-shadow: 0 0 0 rgba(255,255,255,0);
+  transition: all 0.3s ease;
+}
+.on-zero {
+  background-color: #00eaff;
+  box-shadow: 0 0 15px #00eaff;
+}
+.on-one {
+  background-color: #ffff00;
+  box-shadow: 0 0 15px #ffff00;
+}
+/* ------------------ تاریخچه و گزارش‌ها ------------------ */
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  color: #cbd5f5;
+}
+.history-table th, .history-table td {
+  border-bottom: 1px solid rgba(148,163,184,0.18);
+  padding: 8px 10px;
+  text-align: right;
+}
+.history-table th {
+  background: rgba(15,23,42,0.85);
+  font-weight: 700;
+}
+.empty-hint {
+  font-size: 13px;
+  color: #94a3b8;
+  padding: 6px 0;
+}
+/* ------------------ واکنش‌گرا ------------------ */
+@media (max-width: 768px) {
+  header { font-size: 32px; }
+  .camera-panel { position: fixed; inset: auto 10px 10px 10px; width: auto; }
+  .settings-panel { width: calc(100% - 40px); inset: auto 20px 90px 20px; }
+  .app-top { flex-direction: column; gap: 14px; }
+  .user-meta-box { align-self: stretch; justify-content: space-between; }
+}
+</style>
+</head>
+<body>
+<div id="authOverlay" class="auth-overlay">
+  <div class="auth-card">
+    <h1>زبان باینری پاردیس</h1>
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab active" data-tab="creatorLogin" onclick="switchAuthTab('creatorLogin')">ورود سازنده</button>
+      <button type="button" class="auth-tab" data-tab="userFaceLogin" onclick="switchAuthTab('userFaceLogin')">ورود کاربر عادی</button>
+    </div>
+    <div class="auth-content active" data-content="creatorLogin">
+      <h2 class="panel-title">ورود سازنده</h2>
+      <form id="creatorLoginForm" onsubmit="loginCreator(event)">
+        <div class="auth-fields">
+          <div class="auth-field">
+            <label for="creatorLoginUsername">نام کاربری</label>
+            <input type="text" id="creatorLoginUsername" autocomplete="username" required />
+          </div>
+          <div class="auth-field">
+            <label for="creatorLoginPassword">رمز عبور</label>
+            <input type="password" id="creatorLoginPassword" autocomplete="current-password" required />
+          </div>
+        </div>
+        <p class="auth-tip">سازنده مادر ظرفیت کامل مدیریت را دارد. پس از ورود می‌تواند چهرهٔ خود را ثبت و کاربران جدید را مدیریت کند.</p>
+        <button type="submit" class="auth-submit">ورود سازنده</button>
+      </form>
+      <div class="camera-instruct">
+        <strong>راهنما:</strong> برای احراز هویت تصویری، ابتدا در سامانه کاربران کاربر عادی را ثبت و صورتشان را ضبط کنید. پس از ورود، روی «ثبت چهره» کلیک کنید.
+      </div>
+    </div>
+    <div class="auth-content" data-content="userFaceLogin">
+      <h2 class="panel-title">ورود کاربر عادی</h2>
+      <p class="auth-tip">کاربران عادی تنها با تشخیص چهره وارد می‌شوند. ابتدا دوربین را آماده کنید و سپس روی «شروع تشخیص چهره» بزنید یا تصویر چهرهٔ خود را انتخاب کنید.</p>
+      <div class="actions">
+        <button type="button" class="outline-btn" onclick="prepareCamera()">🎥 آماده‌سازی دوربین</button>
+        <button type="button" onclick="startFaceLogin()">شروع تشخیص چهره</button>
+      </div>
+      <div class="camera-instruct">
+        در صورت تمایل می‌توانید عکس چهرهٔ خود را بارگذاری کنید:
+        <input type="file" id="userLoginPhoto" accept="image/*" onchange="loginUserByPhoto(event)" style="margin-top:8px;" />
+      </div>
+    </div>
+  </div>
+</div>
+<div id="appContainer" class="app-container hidden">
+  <div class="app-top">
+    <header>زبان باینری پاردیس</header>
+    <div class="user-meta-box">
+      <span id="currentUserLabel">---</span>
+      <button type="button" class="logout-btn fixed-btn" onclick="logout()">خروج</button>
+    </div>
+  </div>
+  <div id="gearButton" class="gear-btn" title="نمایش/مخفی تنظیمات" onclick="toggleSettings()">⚙️</div>
+  <div class="top-box">
+    <textarea id="inputText" placeholder="متن یا کد باینری خود را وارد کنید..." rows="5" dir="ltr"></textarea>
+    <div class="actions" dir="ltr">
+      <button onclick="processText()">🔄 رمزگذاری به باینری</button>
+      <button onclick="decodeBinary()">🔓 تبدیل به متن</button>
+      <button onclick="pasteInput()">📥 paste</button>
+      <button onclick="copyOutput()">📋 copy</button>
+    </div>
+    <div id="outputBox" dir="auto"></div>
+  </div>
+  <canvas id="bitScene" width="600" height="300"></canvas>
+  <div id="bitLight" aria-live="polite" aria-label="چراغ وضعیت بیت‌ها">
+    <span>وضعیت بیت:</span>
+    <div id="bitZeroLight" class="bit-circle"></div>
+    <div id="bitOneLight" class="bit-circle"></div>
+  </div>
+  <section class="stego-box">
+    <h2>استگانوگرافی — جاسازی و استخراج کد</h2>
+    <p class="stego-description">
+      در این بخش می‌توانید متن یا کد دلخواه را داخل تصویر پنهان (LSB) کنید و نسخهٔ جدید را دانلود کنید. همچنین امکان استخراج پیام از تصاویر رمزگذاری‌شده و ترجمهٔ خودکار متن استخراج‌شده به فارسی برای تمامی کاربران فراهم است.
+    </p>
+    <div class="stego-grid">
+      <div class="stego-column">
+        <h3>جاسازی کد در تصویر</h3>
+        <label>تصویر ورودی:
+          <input type="file" id="stegoInputImage" accept="image/png,image/jpeg" />
+        </label>
+        <label>متن/کد موردنظر:
+          <textarea id="stegoMessage" class="stego-textarea" placeholder="متن یا کد را وارد کنید..."></textarea>
+        </label>
+        <button onclick="embedCodeInImage()">جاسازی و آماده‌سازی دانلود</button>
+        <div id="stegoResultContainer" class="stego-result hidden">
+          <img id="stegoResultImage" alt="تصویر حاوی کد" />
+          <a id="downloadStegoLink" class="download-link" href="#" download>⬇️ دانلود تصویر حاوی کد</a>
+        </div>
+      </div>
+      <div class="stego-column">
+        <h3>استخراج و ترجمه</h3>
+        <label>تصویر حاوی کد:
+          <input type="file" id="stegoDecodeImage" accept="image/png,image/jpeg" />
+        </label>
+        <button onclick="extractCodeFromImage()">استخراج پیام</button>
+        <label>پیام استخراج‌شده:
+          <textarea id="stegoExtractedMessage" class="stego-result" readonly></textarea>
+        </label>
+        <div class="actions">
+          <button class="outline-btn" onclick="translateExtractedMessage()">🌐 ترجمه به فارسی</button>
+        </div>
+        <textarea id="stegoTranslatedMessage" class="stego-result" placeholder="ترجمهٔ پیام در اینجا نمایش داده می‌شود." readonly></textarea>
+      </div>
+    </div>
+  </section>
+  <section id="creatorPanel" class="creator-panel">
+    <div class="assistant-box" id="motherAssistantBox">
+      <h4>دستیار مدیریتی</h4>
+      <p id="assistantGreeting">مهران عزیز خوش آمدی به سامانهٔ پاردیس! 🌟</p>
+      <div class="status-row" id="assistantStats"></div>
+      <ul>
+        <li>برای ثبت چهرهٔ خود یا کاربران، از دوربین بالا سمت چپ استفاده کن.</li>
+        <li>درخواست‌های سازندهٔ دوم با وضعیت «در انتظار تأیید» نمایش داده می‌شود.</li>
+        <li>برای هر کاربر، با کلیک روی «ثبت چهره با دوربین» می‌توانی به‌روزرسانی انجام دهی.</li>
+      </ul>
+      <div class="actions">
+        <button type="button" onclick="enrollCreatorFace()">ثبت/به‌روزرسانی چهرهٔ من</button>
+        <button type="button" class="outline-btn" onclick="toggleCameraPanel()">باز/بسته کردن پنجرهٔ دوربین</button>
+      </div>
+    </div>
+    <div>
+      <h3>مدیریت کاربران</h3>
+      <form id="createUserForm" onsubmit="createAccount(event)">
+        <label>نوع حساب جدید</label>
+        <select id="newAccountRole" required>
+          <option value="user">کاربر عادی</option>
+          <option value="secondary">سازنده دوم</option>
+        </select>
+        <input type="text" id="newAccountUsername" placeholder="نام کاربری" required />
+        <input type="password" id="newAccountPassword" placeholder="رمز عبور" required />
+        <button type="submit">ایجاد حساب جدید</button>
+      </form>
+    </div>
+    <div class="actions">
+      <label>
+        بارگذاری عکس برای ثبت چهرهٔ کاربر:
+        <input type="file" id="creatorPhotoEnrollment" accept="image/*" onchange="enrollUserByPhoto(event)" />
+      </label>
+    </div>
+    <div>
+      <h3>کاربران ثبت‌شده</h3>
+      <div id="userList" class="creator-user-list"></div>
+    </div>
+    <div>
+      <h3>درخواست‌های معلق سازندهٔ دوم</h3>
+      <div id="pendingList" class="creator-user-list"></div>
+    </div>
+    <div>
+      <h3>نشست‌های فعال</h3>
+      <div id="activeSessions" class="creator-user-list"></div>
+    </div>
+    <div>
+      <h3>تاریخچهٔ ورود و خروج</h3>
+      <div id="historyLog"></div>
+    </div>
+  </section>
+</div>
+<div id="cameraPanel" class="camera-panel hidden">
+  <div class="camera-header">
+    <span>دوربین نظارت چهره</span>
+    <button type="button" class="mini-btn" onclick="toggleCameraPanel()">کمینه</button>
+  </div>
+  <video id="liveVideo" autoplay muted playsinline></video>
+  <p id="cameraStatus">برای استفاده از قابلیت تشخیص چهره، روی «آماده‌سازی دوربین» کلیک کنید.</p>
+  <div class="actions">
+    <button type="button" onclick="captureFaceDescriptor()">ثبت چهره با دوربین</button>
+    <button type="button" class="outline-btn" onclick="stopCamera()">توقف دوربین</button>
+  </div>
+</div>
+<div class="settings-panel" id="settingsPanel">
+  <h3>تنظیمات پیشرفته</h3>
+  <label>سرعت تایپ (میلی‌ثانیه):
+    <input type="number" id="typeSpeed" value="50" min="1" max="1000000000" step="10" />
+  </label>
+  <label>رنگ بیت صفر:
+    <input type="color" id="colorZero" value="#00aaff" />
+  </label>
+  <label>رنگ بیت یک:
+    <input type="color" id="colorOne" value="#ffff00" />
+  </label>
+  <label>اندازه کره‌ها:
+    <input type="number" id="sphereSize" value="0.2" step="0.05" min="0.05" max="1" />
+  </label>
+  <label>چگالی بیت:
+    <input type="number" id="bitDensity" value="1" step="1" min="1" max="5" />
+  </label>
+  <label>سرعت حرکت بیت:
+    <input type="number" id="bitSpeed" value="0.01" step="0.005" min="0" max="0.05" />
+  </label>
+  <button class="close-btn" onclick="toggleSettings()">✖️ بستن</button>
+</div>
+<canvas id="stegoCanvas" class="hidden"></canvas>
+<script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/155/three.min.js"></script>
+<script>
+/* ---------- ثابت‌ها ---------- */
+const STORAGE_KEY = 'pardisBinaryAccounts';
+const HISTORY_KEY = 'pardisSessionHistory';
+const DEFAULT_CREATOR = { username: 'mehran_creator', password: 'Pardis@Face2025' };
+const FACE_MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/';
+const FACE_MATCH_THRESHOLD = 0.48;
+
+/* ---------- وضعیت ---------- */
+let accounts = [];
+let currentUser = null;
+let modelsReady = false;
+let cameraReady = false;
+let videoStream = null;
+let activeSessionId = null;
+let sessionHistory = [];
+
+/* ---------- آماده‌سازی اولیه ---------- */
+document.addEventListener('DOMContentLoaded', async () => {
+  accounts = loadAccounts();
+  sessionHistory = loadHistory();
+  await preloadDefaultCreator();
+  accounts = loadAccounts();
+  initializeAuth();
+  updateCreatorPanel();
+  refreshAssistantStats();
+});
+
+/* ---------- احراز هویت و نقش‌ها ---------- */
+function initializeAuth() {
+  switchAuthTab('creatorLogin');
+  setCameraStatus('برای شروع، روی «آماده‌سازی دوربین» کلیک کنید و اجازه دسترسی بدهید.');
+}
+
+function switchAuthTab(target) {
+  document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === target));
+  document.querySelectorAll('.auth-content').forEach(content => content.classList.toggle('active', content.dataset.content === target));
+}
+
+function loadAccounts() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (err) {
+    console.error('خطا در خواندن حساب‌ها', err);
+    return [];
+  }
+}
+
+function loadHistory() {
+  try {
+    const raw = localStorage.getItem(HISTORY_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (err) {
+    console.error('خطا در تاریخچه نشست', err);
+    return [];
+  }
+}
+
+function saveAccounts() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(accounts));
+}
+
+function saveHistory() {
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(sessionHistory));
+}
+
+async function preloadDefaultCreator() {
+  const exists = accounts.some(acc => acc.role === 'mother');
+  if (exists) return;
+  const passwordHash = await hashString(DEFAULT_CREATOR.password);
+  accounts.push({
+    username: DEFAULT_CREATOR.username,
+    passwordHash,
+    role: 'mother',
+    creatorId: null,
+    faceDescriptor: null,
+    createdAt: Date.now(),
+    systemGenerated: true,
+    pending: false
+  });
+  saveAccounts();
+}
+
+async function hashString(value) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(value);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function ensureAuthenticated() {
+  if (!currentUser) {
+    alert('لطفاً ابتدا وارد شوید.');
+    return false;
+  }
+  return true;
+}
+
+function setActiveUser(account) {
+  currentUser = account;
+  activeSessionId = Date.now();
+  document.getElementById('currentUserLabel').textContent = `${account.username} • ${translateRole(account.role)}`;
+  document.getElementById('authOverlay').classList.add('hidden');
+  document.getElementById('appContainer').classList.remove('hidden');
+  if (account.role === 'mother') {
+    document.getElementById('creatorPanel').classList.add('visible');
+    document.getElementById('assistantGreeting').textContent = 'مهران عزیز خوش آمدی به سامانهٔ پاردیس! 🌟';
+  } else if (account.role === 'secondary') {
+    document.getElementById('creatorPanel').classList.add('visible');
+    document.getElementById('assistantGreeting').textContent = 'به مدیریت امن خوش آمدید. درخواست‌های شما پس از تأیید مهران فعال می‌شوند.';
+  } else {
+    document.getElementById('creatorPanel').classList.remove('visible');
+  }
+  logSession('login');
+  updateCreatorPanel();
+  refreshAssistantStats();
+  alert(`خوش آمدید ${account.username}`);
+}
+
+function translateRole(role) {
+  if (role === 'mother') return 'سازنده مادر';
+  if (role === 'secondary') return 'سازنده دوم';
+  return 'کاربر عادی';
+}
+
+function logout() {
+  if (!currentUser) return;
+  logSession('logout');
+  currentUser = null;
+  activeSessionId = null;
+  stopCamera();
+  document.getElementById('authOverlay').classList.remove('hidden');
+  document.getElementById('appContainer').classList.add('hidden');
+  document.getElementById('creatorPanel').classList.remove('visible');
+  switchAuthTab('creatorLogin');
+}
+
+async function loginCreator(event) {
+  event.preventDefault();
+  const username = document.getElementById('creatorLoginUsername').value.trim();
+  const password = document.getElementById('creatorLoginPassword').value;
+  const passwordHash = await hashString(password);
+  const account = accounts.find(acc => (acc.role === 'mother' || acc.role === 'secondary') && acc.username === username && acc.passwordHash === passwordHash);
+  if (!account) {
+    alert('اطلاعات ورود صحیح نیست یا حساب شما تأیید نشده است.');
+    return;
+  }
+  if (account.pending) {
+    alert('این حساب هنوز توسط سازنده مادر تأیید نشده است.');
+    return;
+  }
+  setActiveUser(account);
+  if (account.role === 'mother') {
+    alert('مهران عزیز خوش آمدی به سامانهٔ پاردیس!');
+  }
+  document.getElementById('creatorLoginForm').reset();
+}
+
+async function loginUserByPhoto(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  try {
+    await ensureFaceApiReady(false);
+    const descriptor = await getDescriptorFromImageFile(file);
+    if (!descriptor) {
+      alert('چهره‌ای در تصویر یافت نشد.');
+      return;
+    }
+    await authenticateFace(descriptor);
+  } catch (err) {
+    alert('ورود با عکس ممکن نشد: ' + err.message);
+  } finally {
+    event.target.value = '';
+  }
+}
+
+async function startFaceLogin() {
+  try {
+    await ensureFaceApiReady(true);
+    alert('لطفاً صورت خود را مقابل دوربین نگه دارید.');
+    const descriptor = await captureFaceDescriptor();
+    if (!descriptor) {
+      alert('چهره‌ای شناسایی نشد.');
+      return;
+    }
+    await authenticateFace(descriptor);
+  } catch (err) {
+    alert('ورود با چهره ممکن نشد: ' + err.message);
+  }
+}
+
+async function authenticateFace(descriptor) {
+  const labeled = await buildLabeledDescriptors();
+  if (!labeled.length) {
+    alert('هیچ کاربر عادی با چهرهٔ ثبت‌شده وجود ندارد.');
+    return;
+  }
+  const matcher = new faceapi.FaceMatcher(labeled, FACE_MATCH_THRESHOLD);
+  const best = matcher.findBestMatch(descriptor);
+  if (best.label === 'unknown') {
+    alert('چهرهٔ شما در سامانه یافت نشد.');
+    return;
+  }
+  const account = accounts.find(acc => acc.username === best.label && !acc.pending);
+  if (!account) {
+    alert('حساب مرتبط با این چهره وجود ندارد یا تأیید نشده است.');
+    return;
+  }
+  setActiveUser(account);
+  alert(`خوش آمدید ${account.username}`);
+}
+
+function loadPendingAccounts(role) {
+  return accounts.filter(acc => acc.role === role && acc.pending);
+}
+
+/* ---------- مدیریت حساب‌ها ---------- */
+async function createAccount(event) {
+  event.preventDefault();
+  if (!currentUser || (currentUser.role !== 'mother' && currentUser.role !== 'secondary')) {
+    alert('دسترسی مجاز نیست.');
+    return;
+  }
+  const username = document.getElementById('newAccountUsername').value.trim();
+  const password = document.getElementById('newAccountPassword').value;
+  const role = document.getElementById('newAccountRole').value;
+  if (!username || !password) {
+    alert('اطلاعات تکمیل نشده است.');
+    return;
+  }
+  if (accounts.some(acc => acc.username === username)) {
+    alert('این نام کاربری قبلاً ثبت شده است.');
+    return;
+  }
+  const passwordHash = await hashString(password);
+  const newAccount = {
+    username,
+    passwordHash,
+    role,
+    creatorId: currentUser.username,
+    faceDescriptor: null,
+    createdAt: Date.now(),
+    systemGenerated: false,
+    pending: role === 'secondary' || currentUser.role === 'secondary'
+  };
+  accounts.push(newAccount);
+  saveAccounts();
+  updateCreatorPanel();
+  refreshAssistantStats();
+  document.getElementById('createUserForm').reset();
+  if (newAccount.pending) {
+    alert('حساب جدید با موفقیت ایجاد شد و در انتظار تأیید سازندهٔ مادر است.');
+  } else {
+    alert('حساب جدید ایجاد گردید.');
+  }
+}
+
+function approveAccount(username) {
+  const account = accounts.find(acc => acc.username === username);
+  if (!account) return;
+  account.pending = false;
+  saveAccounts();
+  updateCreatorPanel();
+  refreshAssistantStats();
+  alert(`حساب ${username} تأیید شد.`);
+}
+
+function rejectAccount(username) {
+  accounts = accounts.filter(acc => acc.username !== username);
+  saveAccounts();
+  updateCreatorPanel();
+  refreshAssistantStats();
+  alert(`حساب ${username} حذف شد.`);
+}
+
+/* ---------- تاریخچه نشست ---------- */
+function logSession(type) {
+  if (!currentUser || !activeSessionId) return;
+  if (type === 'login') {
+    sessionHistory.push({
+      sessionId: activeSessionId,
+      username: currentUser.username,
+      role: currentUser.role,
+      loginAt: new Date().toISOString(),
+      logoutAt: null,
+      durationSeconds: null
+    });
+  }
+  if (type === 'logout') {
+    const record = sessionHistory.find(entry => entry.sessionId === activeSessionId);
+    if (record && !record.logoutAt) {
+      record.logoutAt = new Date().toISOString();
+      const diff = (new Date(record.logoutAt) - new Date(record.loginAt)) / 1000;
+      record.durationSeconds = Math.round(diff);
+    }
+  }
+  saveHistory();
+  updateCreatorPanel();
+  refreshAssistantStats();
+}
+
+/* ---------- چهره ---------- */
+async function enrollCreatorFace() {
+  if (!currentUser || currentUser.role === 'user') {
+    alert('تنها سازندگان می‌توانند چهره ثبت کنند.');
+    return;
+  }
+  try {
+    await ensureFaceApiReady(true);
+    alert('لطفاً صورت خود را مقابل دوربین قرار دهید.');
+    const descriptor = await captureFaceDescriptor();
+    if (!descriptor) return alert('چهره‌ای شناسایی نشد.');
+    const idx = accounts.findIndex(acc => acc.username === currentUser.username);
+    if (idx >= 0) {
+      accounts[idx].faceDescriptor = descriptor;
+      saveAccounts();
+      alert('چهره ذخیره شد.');
+    }
+  } catch (err) {
+    alert('ثبت چهره موفق نبود: ' + err.message);
+  }
+}
+
+async function enrollUserByPhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (!currentUser || currentUser.role === 'user') {
+    alert('این قابلیت مخصوص سازندگان است.');
+    e.target.value = '';
+    return;
+  }
+  try {
+    await ensureFaceApiReady(false);
+    const descriptor = await getDescriptorFromImageFile(file);
+    if (!descriptor) { alert('چهره‌ای در تصویر یافت نشد.'); e.target.value = ''; return; }
+    const username = prompt('نام کاربری فردی که باید چهرهٔ او ثبت شود؟');
+    if (!username) { e.target.value = ''; return; }
+    const account = accounts.find(acc => acc.username === username);
+    if (!account) { alert('کاربر یافت نشد.'); e.target.value = ''; return; }
+    account.faceDescriptor = descriptor;
+    if (currentUser.role === 'secondary' && account.role === 'user') {
+      account.pending = true;
+      alert('چهره ثبت شد اما نیاز به تأیید سازندهٔ مادر دارد.');
+    } else {
+      account.pending = false;
+      alert('چهرهٔ کاربر ثبت شد.');
+    }
+    saveAccounts();
+    updateCreatorPanel();
+    refreshAssistantStats();
+  } catch (err) {
+    alert('ثبت چهره از تصویر ممکن نشد: ' + err.message);
+  } finally {
+    e.target.value = '';
+  }
+}
+
+/* ---------- دوربین ---------- */
+async function ensureFaceApiReady(requireCamera = true) {
+  if (!modelsReady) {
+    setCameraStatus('در حال بارگذاری مدل‌های تشخیص چهره...');
+    await Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri(FACE_MODEL_URL),
+      faceapi.nets.faceLandmark68Net.loadFromUri(FACE_MODEL_URL),
+      faceapi.nets.faceRecognitionNet.loadFromUri(FACE_MODEL_URL)
+    ]);
+    modelsReady = true;
+    setCameraStatus('مدل‌ها بارگذاری شدند.');
+  }
+  if (requireCamera && !cameraReady) {
+    await startCamera();
+  }
+}
+
+async function startCamera() {
+  try {
+    videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+    const video = document.getElementById('liveVideo');
+    video.srcObject = videoStream;
+    cameraReady = true;
+    document.getElementById('cameraPanel').classList.remove('hidden');
+    setCameraStatus('دوربین فعال است. برای ثبت چهره نزدیک شوید.');
+  } catch (err) {
+    setCameraStatus('دوربین در دسترس نیست: ' + err.message);
+    throw err;
+  }
+}
+
+function stopCamera() {
+  if (!videoStream) return;
+  videoStream.getTracks().forEach(track => track.stop());
+  videoStream = null;
+  cameraReady = false;
+  document.getElementById('liveVideo').srcObject = null;
+  setCameraStatus('دوربین متوقف شد.');
+}
+
+function setCameraStatus(text) {
+  document.getElementById('cameraStatus').textContent = text;
+}
+
+function toggleCameraPanel() {
+  const panel = document.getElementById('cameraPanel');
+  panel.classList.toggle('hidden');
+}
+
+async function captureFaceDescriptor() {
+  if (!cameraReady || !videoStream) {
+    await startCamera();
+  }
+  const video = document.getElementById('liveVideo');
+  const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptor();
+  if (!detection) {
+    alert('چهره‌ای شناسایی نشد. کمی نزدیک‌تر شوید یا نور را تنظیم کنید.');
+    return null;
+  }
+  return Array.from(detection.descriptor);
+}
+
+async function getDescriptorFromImageFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const img = await faceapi.fetchImage(reader.result);
+      const detection = await faceapi.detectSingleFace(img, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptor();
+      resolve(detection ? Array.from(detection.descriptor) : null);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function buildLabeledDescriptors() {
+  const labeledDescriptors = [];
+  for (const account of accounts) {
+    if (!account.faceDescriptor || account.role !== 'user' || account.pending) continue;
+    labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(account.username, [new Float32Array(account.faceDescriptor)]));
+  }
+  return labeledDescriptors;
+}
+
+/* ---------- مدیریت UI ---------- */
+function updateCreatorPanel() {
+  const panel = document.getElementById('creatorPanel');
+  if (!currentUser || (currentUser.role !== 'mother' && currentUser.role !== 'secondary')) {
+    panel.classList.remove('visible');
+    return;
+  }
+  const userList = document.getElementById('userList');
+  userList.innerHTML = '';
+  accounts.filter(acc => acc.role !== 'mother').forEach(acc => {
+    const card = document.createElement('div');
+    card.className = 'user-card';
+    const head = document.createElement('div');
+    head.className = 'card-head';
+    head.innerHTML = `<strong>${acc.username}</strong> <span class="role ${acc.pending ? 'pending' : ''}">${acc.pending ? 'در انتظار تأیید' : translateRole(acc.role)}</span>`;
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    meta.innerHTML = `
+      <span>ثبت چهره: ${acc.faceDescriptor ? '✅' : '❌'}</span>
+      <span>ایجاد شده: ${new Date(acc.createdAt).toLocaleString('fa-IR')}</span>
+      <span>توسط: ${acc.creatorId || 'سیستم'}</span>
+    `;
+    card.append(head, meta);
+    const actions = document.createElement('div');
+    actions.className = 'actions';
+    if (currentUser.role === 'mother' || !acc.pending) {
+      const camBtn = document.createElement('button');
+      camBtn.textContent = 'ثبت چهره با دوربین';
+      camBtn.onclick = async () => {
+        await ensureFaceApiReady(true);
+        alert('لطفاً صورت کاربر را مقابل دوربین قرار دهید.');
+        const descriptor = await captureFaceDescriptor();
+        if (descriptor) {
+          acc.faceDescriptor = descriptor;
+          acc.pending = false;
+          saveAccounts();
+          updateCreatorPanel();
+          refreshAssistantStats();
+          alert('چهره ثبت شد.');
+        }
+      };
+      actions.appendChild(camBtn);
+    }
+    if (currentUser.role === 'mother') {
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'outline-btn';
+      deleteBtn.textContent = 'حذف حساب';
+      deleteBtn.onclick = () => {
+        if (confirm(`حذف حساب ${acc.username}؟`)) {
+          accounts = accounts.filter(a => a.username !== acc.username);
+          saveAccounts();
+          updateCreatorPanel();
+          refreshAssistantStats();
+        }
+      };
+      actions.appendChild(deleteBtn);
+    }
+    card.appendChild(actions);
+    userList.appendChild(card);
+  });
+
+  const pendingList = document.getElementById('pendingList');
+  pendingList.innerHTML = '';
+  if (currentUser.role === 'mother') {
+    const pendingAccounts = accounts.filter(acc => acc.pending);
+    if (!pendingAccounts.length) {
+      pendingList.innerHTML = '<p class="empty-hint">موردی وجود ندارد.</p>';
+    } else {
+      pendingAccounts.forEach(acc => {
+        const card = document.createElement('div');
+        card.className = 'user-card';
+        card.innerHTML = `
+          <div class="card-head">
+            <strong>${acc.username}</strong>
+            <span class="role pending">در انتظار تأیید</span>
+          </div>
+          <div class="meta">
+            <span>نقش: ${translateRole(acc.role)}</span>
+            <span>ایجاد شده: ${new Date(acc.createdAt).toLocaleString('fa-IR')}</span>
+            <span>سازنده: ${acc.creatorId || 'نامشخص'}</span>
+          </div>
+          <div class="actions">
+            <button onclick="approveAccount('${acc.username}')">تأیید</button>
+            <button class="outline-btn" onclick="rejectAccount('${acc.username}')">رد و حذف</button>
+          </div>
+        `;
+        pendingList.appendChild(card);
+      });
+    }
+  } else {
+    pendingList.innerHTML = '<p class="empty-hint">تنها سازندهٔ مادر می‌تواند درخواست‌ها را مشاهده کند.</p>';
+  }
+
+  const activeContainer = document.getElementById('activeSessions');
+  const nowActive = sessionHistory.filter(entry => !entry.logoutAt);
+  activeContainer.innerHTML = '';
+  if (!nowActive.length) {
+    activeContainer.innerHTML = '<p class="empty-hint">نشست فعالی ثبت نشده است.</p>';
+  } else {
+    nowActive.forEach(entry => {
+      const card = document.createElement('div');
+      card.className = 'user-card';
+      card.innerHTML = `
+        <div class="card-head">
+          <strong>${entry.username}</strong>
+          <span class="role">${translateRole(entry.role)}</span>
+        </div>
+        <div class="meta">
+          <span>ورود: ${new Date(entry.loginAt).toLocaleString('fa-IR')}</span>
+        </div>
+      `;
+      activeContainer.appendChild(card);
+    });
+  }
+
+  const historyLog = document.getElementById('historyLog');
+  if (!sessionHistory.length) {
+    historyLog.innerHTML = '<p class="empty-hint">تاریخچه‌ای وجود ندارد.</p>';
+  } else {
+    const table = document.createElement('table');
+    table.className = 'history-table';
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>نام کاربری</th>
+          <th>نقش</th>
+          <th>زمان ورود</th>
+          <th>زمان خروج</th>
+          <th>مدت (ثانیه)</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${sessionHistory.map(entry => `
+          <tr>
+            <td>${entry.username}</td>
+            <td>${translateRole(entry.role)}</td>
+            <td>${entry.loginAt ? new Date(entry.loginAt).toLocaleString('fa-IR') : '-'}</td>
+            <td>${entry.logoutAt ? new Date(entry.logoutAt).toLocaleString('fa-IR') : 'در حال استفاده'}</td>
+            <td>${entry.durationSeconds ?? '-'}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    `;
+    historyLog.innerHTML = '';
+    historyLog.appendChild(table);
+  }
+}
+
+function refreshAssistantStats() {
+  const statsBox = document.getElementById('assistantStats');
+  if (!statsBox) return;
+  const totalUsers = accounts.length;
+  const totalMothers = accounts.filter(acc => acc.role === 'mother').length;
+  const totalSecondary = accounts.filter(acc => acc.role === 'secondary').length;
+  const totalNormal = accounts.filter(acc => acc.role === 'user').length;
+  const pendingCount = accounts.filter(acc => acc.pending).length;
+  const activeSessions = sessionHistory.filter(entry => !entry.logoutAt).length;
+  const usedFace = accounts.filter(acc => acc.faceDescriptor).length;
+  statsBox.innerHTML = `
+    <span>👥 کاربران کل: ${totalUsers}</span>
+    <span>🧭 سازنده دوم: ${totalSecondary}</span>
+    <span>🙂 کاربران عادی: ${totalNormal}</span>
+    <span>🟢 نشست فعال: ${activeSessions}</span>
+    <span>⏳ در انتظار: ${pendingCount}</span>
+    <span>📷 چهره ثبت‌شده: ${usedFace}</span>
+  `;
+}
+
+/* ---------- Steganography ---------- */
+function embedCodeInImage() {
+  if (!ensureAuthenticated()) return;
+  const fileInput = document.getElementById('stegoInputImage');
+  const message = document.getElementById('stegoMessage').value;
+  if (!fileInput.files.length) {
+    alert('ابتدا یک تصویر برای جاسازی انتخاب کنید.');
+    return;
+  }
+  if (!message) {
+    alert('متن یا کد موردنظر برای جاسازی را وارد کنید.');
+    return;
+  }
+  const file = fileInput.files[0];
+  const image = new Image();
+  const imageUrl = URL.createObjectURL(file);
+  image.onload = () => {
+    URL.revokeObjectURL(imageUrl);
+    const canvas = document.getElementById('stegoCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    ctx.drawImage(image, 0, 0);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const binaryMessage = encodeMessageForStego(message);
+    if (binaryMessage.length > imageData.data.length) {
+      alert('متن انتخابی برای این تصویر خیلی طولانی است. تصویر بزرگتری انتخاب کنید یا متن را کوتاه‌تر کنید.');
+      return;
+    }
+    for (let i = 0; i < binaryMessage.length; i++) {
+      imageData.data[i] = (imageData.data[i] & 0xFE) | Number(binaryMessage[i]);
+    }
+    ctx.putImageData(imageData, 0, 0);
+    const dataUrl = canvas.toDataURL('image/png');
+    document.getElementById('stegoResultImage').src = dataUrl;
+    const downloadLink = document.getElementById('downloadStegoLink');
+    downloadLink.href = dataUrl;
+    downloadLink.download = `pardis-stego-${Date.now()}.png`;
+    document.getElementById('stegoResultContainer').classList.remove('hidden');
+    alert('کد با موفقیت در تصویر جاسازی شد.');
+  };
+  image.onerror = () => {
+    URL.revokeObjectURL(imageUrl);
+    alert('بارگذاری تصویر با خطا مواجه شد.');
+  };
+  image.src = imageUrl;
+}
+
+function encodeMessageForStego(message) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(message);
+  const lengthBytes = new Uint8Array(new Uint32Array([data.length]).buffer);
+  let bits = '';
+  lengthBytes.forEach(byte => bits += byte.toString(2).padStart(8,'0'));
+  data.forEach(byte => bits += byte.toString(2).padStart(8,'0'));
+  return bits;
+}
+
+function extractCodeFromImage() {
+  if (!ensureAuthenticated()) return;
+  const fileInput = document.getElementById('stegoDecodeImage');
+  if (!fileInput.files.length) {
+    alert('تصویر رمزگذاری‌شده را انتخاب کنید.');
+    return;
+  }
+  const file = fileInput.files[0];
+  const image = new Image();
+  const imageUrl = URL.createObjectURL(file);
+  image.onload = () => {
+    URL.revokeObjectURL(imageUrl);
+    const canvas = document.getElementById('stegoCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    ctx.drawImage(image, 0, 0);
+    const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let bits = '';
+    for (let i = 0; i < data.length; i++) {
+      bits += (data[i] & 1).toString();
+    }
+    try {
+      const message = decodeMessageFromBits(bits);
+      document.getElementById('stegoExtractedMessage').value = message || 'پیامی یافت نشد.';
+      if (message) alert('استخراج متن انجام شد.');
+      else alert('اطلاعات معتبری یافت نشد.');
+    } catch (err) {
+      alert('استخراج متن با خطا روبه‌رو شد: ' + err.message);
+    }
+  };
+  image.onerror = () => {
+    URL.revokeObjectURL(imageUrl);
+    alert('بارگذاری تصویر با خطا مواجه شد.');
+  };
+  image.src = imageUrl;
+}
+
+function decodeMessageFromBits(bits) {
+  if (bits.length < 32) throw new Error('داده کافی برای خواندن طول پیام وجود ندارد.');
+  const lengthBits = bits.slice(0, 32);
+  const messageLength = parseInt(lengthBits, 2);
+  if (!Number.isFinite(messageLength) || messageLength <= 0) return '';
+  const totalLength = 32 + messageLength * 8;
+  if (totalLength > bits.length) throw new Error('داده‌های تصویر با طول اعلام‌شده مطابقت ندارد.');
+  const messageBits = bits.slice(32, totalLength);
+  const bytes = [];
+  for (let i = 0; i < messageLength; i++) {
+    const byte = messageBits.slice(i * 8, (i + 1) * 8);
+    bytes.push(parseInt(byte, 2));
+  }
+  return new TextDecoder().decode(new Uint8Array(bytes));
+}
+
+/* ---------- ترجمه ---------- */
+function translateExtractedMessage() {
+  if (!ensureAuthenticated()) return;
+  const message = document.getElementById('stegoExtractedMessage').value.trim();
+  if (!message || message === 'پیامی یافت نشد.') {
+    alert('ابتدا باید پیامی استخراج شود.');
+    return;
+  }
+  const translated = translateToPersian(message);
+  document.getElementById('stegoTranslatedMessage').value = translated;
+  alert('ترجمه انجام شد.');
+}
+
+function translateToPersian(text) {
+  const dictionary = {
+    'hello': 'سلام',
+    'world': 'دنیا',
+    'binary': 'باینری',
+    'code': 'کد',
+    'secret': 'مخفی',
+    'steganography': 'استگانوگرافی',
+    'user': 'کاربر',
+    'creator': 'سازنده',
+    'login': 'ورود',
+    'password': 'رمز عبور',
+    'success': 'موفقیت',
+    'welcome': 'خوش آمدید'
+  };
+  return text.split(/\s+/).map(word => dictionary[word.toLowerCase()] || word).join(' ');
+}
+
+/* ---------- تبدیل متن و باینری ---------- */
+function processText() {
+  if (!ensureAuthenticated()) return;
+  const text = document.getElementById('inputText').value;
+  if (!text) { alert('متنی وارد نشده است.'); return; }
+  const binary = textToBinary(text);
+  animateBinary(binary);
+  typeOutput(binary);
+}
+
+function textToBinary(txt) {
+  let binary = '';
+  for (let i = 0; i < txt.length; i++) {
+    let code = txt.charCodeAt(i);
+    binary += code.toString(2).padStart(16, '0');
+  }
+  return binary;
+}
+
+function decodeBinary() {
+  if (!ensureAuthenticated()) return;
+  let binary = document.getElementById('inputText').value.replace(/\s+/g, '');
+  if (!binary) {
+    alert('کدی برای تبدیل وجود ندارد.');
+    return;
+  }
+  if (binary.length % 16 !== 0) {
+    alert('طول رشتهٔ باینری باید مضربی از ۱۶ باشد.');
+    return;
+  }
+  let text = '';
+  for (let i = 0; i < binary.length; i += 16) {
+    let chunk = binary.slice(i, i + 16);
+    text += String.fromCharCode(parseInt(chunk, 2));
+  }
+  animateBinary(binary);
+  typeOutput(text);
+}
+
+function typeOutput(result) {
+  const output = document.getElementById('outputBox');
+  output.textContent = '';
+  const speed = parseInt(document.getElementById('typeSpeed').value, 10) || 50;
+  let index = 0;
+  const interval = setInterval(() => {
+    if (index >= result.length) { clearInterval(interval); return; }
+    output.textContent += result[index];
+    index++;
+  }, speed);
+}
+
+function copyOutput() {
+  if (!ensureAuthenticated()) return;
+  let text = document.getElementById('outputBox').textContent;
+  if (!text) return alert('متنی برای کپی وجود ندارد');
+  navigator.clipboard.writeText(text).then(() => alert('کپی شد ✅')).catch(() => alert('دسترسی به کلیپ‌بورد امکان‌پذیر نبود.'));
+}
+
+function pasteInput() {
+  if (!ensureAuthenticated()) return;
+  navigator.clipboard.readText().then(text => {
+    document.getElementById('inputText').value = text;
+  }).catch(() => {
+    alert('خواندن از کلیپ‌بورد امکان‌پذیر نبود.');
+  });
+}
+
+/* ---------- سه‌بعدی ---------- */
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera(75, 600/300, 0.1, 1000);
+let renderer = new THREE.WebGLRenderer({canvas: document.getElementById('bitScene'), alpha:true, antialias:true});
+renderer.setSize(600, 300);
+camera.position.z = 6;
+let spheres = [];
+let animationSpeed = 0.01;
+
+function updateScene(binaryString) {
+  spheres.forEach(sphere=>scene.remove(sphere));
+  spheres = [];
+  let colorZero = document.getElementById('colorZero').value;
+  let colorOne = document.getElementById('colorOne').value;
+  let sphereSize = parseFloat(document.getElementById('sphereSize').value) || 0.2;
+  let density = parseInt(document.getElementById('bitDensity').value) || 1;
+  let posXStart = -binaryString.length/(density*10)/2;
+  for (let i = 0; i < binaryString.length; i += density) {
+    let bit = binaryString[i];
+    let geometry = new THREE.SphereGeometry(sphereSize, 20, 20);
+    let material = new THREE.MeshBasicMaterial({color: bit === '0' ? colorZero : colorOne});
+    let sphere = new THREE.Mesh(geometry, material);
+    sphere.position.x = posXStart + (i / density) * 0.4;
+    sphere.position.y = Math.sin(i/3) * 0.6;
+    scene.add(sphere);
+    spheres.push(sphere);
+  }
+  document.getElementById('bitZeroLight').classList.toggle('on-zero', binaryString.includes('0'));
+  document.getElementById('bitOneLight').classList.toggle('on-one', binaryString.includes('1'));
+}
+
+function animateBinary(binaryString) {
+  updateScene(binaryString);
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  spheres.forEach(sphere => {
+    sphere.position.y += Math.sin(Date.now() * 0.001) * animationSpeed;
+  });
+  renderer.render(scene, camera);
+}
+animate();
+
+function toggleSettings() {
+  if (!ensureAuthenticated()) return;
+  document.getElementById('settingsPanel').classList.toggle('show');
+}
+
+document.getElementById('bitSpeed').addEventListener('input', e => {
+  animationSpeed = parseFloat(e.target.value);
+});
+
+/* ---------- راهنمای سامانه ---------- */
+console.info(`پاردیس باینری — نسخه ۴
+• سازنده مادر: مدیریت کامل کاربران و نشست‌ها.
+• سازنده دوم: ایجاد کاربر عادی و ثبت چهره (نیازمند تأیید مادر).
+• کاربر عادی: ورود صرفاً با چهره و استفاده از ابزارهای رمزگذاری/استگانوگرافی.
+• پیشنهاد: انتقال اطلاعات به سرور امن، کش‌کردن مدل‌های تشخیص چهره، تنظیم آستانهٔ تطابق و نمایش سیاست مجوز دوربین.`);
+
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Runtime Error</title>
+        <meta name="viewport" content="width=device-width" />
+        <style>
+         body {font-family:"Verdana";font-weight:normal;font-size: .7em;color:black;} 
+         p {font-family:"Verdana";font-weight:normal;color:black;margin-top: -5px}
+         b {font-family:"Verdana";font-weight:bold;color:black;margin-top: -5px}
+         H1 { font-family:"Verdana";font-weight:normal;font-size:18pt;color:red }
+         H2 { font-family:"Verdana";font-weight:normal;font-size:14pt;color:maroon }
+         pre {font-family:"Consolas","Lucida Console",Monospace;font-size:11pt;margin:0;padding:0.5em;line-height:14pt}
+         .marker {font-weight: bold; color: black;text-decoration: none;}
+         .version {color: gray;}
+         .error {margin-bottom: 10px;}
+         .expandable { text-decoration:underline; font-weight:bold; color:navy; cursor:hand; }
+         @media screen and (max-width: 639px) {
+          pre { width: 440px; overflow: auto; white-space: pre-wrap; word-wrap: break-word; }
+         }
+         @media screen and (max-width: 479px) {
+          pre { width: 280px; }
+         }
+        </style>
+    </head>
+
+    <body bgcolor="white">
+
+            <span><H1>Server Error in '/' Application.<hr width=100% size=1 color=silver></H1>
+
+            <h2> <i>Runtime Error</i> </h2></span>
+
+            <font face="Arial, Helvetica, Geneva, SunSans-Regular, sans-serif ">
+
+            <b> Description: </b>An application error occurred on the server. The current custom error settings for this application prevent the details of the application error from being viewed remotely (for security reasons). It could, however, be viewed by browsers running on the local server machine.
+            <br><br>
+
+            <b>Details:</b> To enable the details of this specific error message to be viewable on remote machines, please create a &lt;customErrors&gt; tag within a &quot;web.config&quot; configuration file located in the root directory of the current web application. This &lt;customErrors&gt; tag should then have its &quot;mode&quot; attribute set to &quot;Off&quot;.<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+&lt;!-- Web.Config Configuration File --&gt;
+
+&lt;configuration&gt;
+    &lt;system.web&gt;
+        &lt;customErrors mode=&quot;Off&quot;/&gt;
+    &lt;/system.web&gt;
+&lt;/configuration&gt;</pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+            <b>Notes:</b> The current error page you are seeing can be replaced by a custom error page by modifying the &quot;defaultRedirect&quot; attribute of the application&#39;s &lt;customErrors&gt; configuration tag to point to a custom error page URL.<br><br>
+
+            <table width=100% bgcolor="#ffffcc">
+               <tr>
+                  <td>
+                      <code><pre>
+
+&lt;!-- Web.Config Configuration File --&gt;
+
+&lt;configuration&gt;
+    &lt;system.web&gt;
+        &lt;customErrors mode=&quot;RemoteOnly&quot; defaultRedirect=&quot;mycustompage.htm&quot;/&gt;
+    &lt;/system.web&gt;
+&lt;/configuration&gt;</pre></code>
+
+                  </td>
+               </tr>
+            </table>
+
+            <br>
+
+    </body>
+</html>
